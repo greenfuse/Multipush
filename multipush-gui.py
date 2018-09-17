@@ -12,9 +12,13 @@ class Multipush(Gtk.Window):
         self.liststore_combo = builder.get_object('liststore_combo')
         
         #create solid colour image
-        colour = 0xff222255
+        red = 0xffbbbbff
+        green = 0xa3f079ff
+        yellow = 0xffff56ff
+        grey = 0x808080ff
+        
         pixel = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, 16, 16)
-        pixel.fill(colour)    
+        pixel.fill(grey)    
             
         test_rows = [[False, pixel, 'Computer1', 0]
             ,[False, pixel, 'Computer2', 0]
@@ -56,7 +60,7 @@ class Multipush(Gtk.Window):
         #self.timeout_id = GLib.timeout_add(100, self.on_timeout, None)
 
     def on_cell_toggled(self, widget, path):
-        self.liststore_computer[path][0] = not self.liststore_computer[path][0]
+        self.liststore_computers[path][0] = not self.liststore_computers[path][0]
     
     def on_radio_file_group_changed(self, widget):
         print("")
