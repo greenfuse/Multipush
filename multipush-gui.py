@@ -1,62 +1,110 @@
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, GdkPixbuf
 
-class CellRendererProgressWindow(Gtk.Window):
-
+class Multipush(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Multipush")
+        builder = Gtk.Builder()
+        builder.add_from_file('gladebuildertest.glade')
+        builder.connect_signals(self)
 
-        self.set_default_size(200, 200)
+        self.liststore_computers = builder.get_object('liststore_computers')
+        self.liststore_combo = builder.get_object('liststore_combo')
+        
+        #create solid colour image
+        colour = 0xff222255
+        pixel = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, 16, 16)
+        pixel.fill(colour)    
+            
+        test_rows = [[False, pixel, 'Computer1', 0]
+            ,[False, pixel, 'Computer2', 0]
+            ,[False, pixel, 'Computer3', 0]]
+        for test_row in test_rows:
+            self.liststore_computers.append(test_row)        
 
-        self.liststore = Gtk.ListStore(bool, str, int, str)
-        self.current_iter = self.liststore.append([False, "Computer1", 0, "network-offline"])
-        self.liststore.append([False, "Computer2", 0, "network-idle"])
-        self.liststore.append([False, "Computer3", 0, "network-transmit-receive"])
-
-        treeview = Gtk.TreeView(model=self.liststore)
+        
+        self.treeview = builder.get_object('treeview')
 
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
-        column_toggle = Gtk.TreeViewColumn("Selected", renderer_toggle,
+        column_toggle = Gtk.TreeViewColumn("Select", renderer_toggle,
             active=0)
-        treeview.append_column(column_toggle)
+        self.treeview.append_column(column_toggle)
 
+        renderer_pixbuf = Gtk.CellRendererPixbuf()
+        column_pixbuf = Gtk.TreeViewColumn("Status", renderer_pixbuf, pixbuf=1)
+        self.treeview.append_column(column_pixbuf)
+        
         renderer_text = Gtk.CellRendererText()
-        column_computer = Gtk.TreeViewColumn("Conputer", renderer_text, text=1)
-        treeview.append_column(column_computer)
+        column_computer = Gtk.TreeViewColumn("Conputer", renderer_text, text=2)
+        self.treeview.append_column(column_computer)
 
         renderer_progress = Gtk.CellRendererProgress()
         column_progress = Gtk.TreeViewColumn("Progress", renderer_progress,
-            pulse=2)
-        treeview.append_column(column_progress)
+            value=3)
+        self.treeview.append_column(column_progress)
 
-        renderer_pixbuf = Gtk.CellRendererPixbuf()
-        column_pixbuf = Gtk.TreeViewColumn("Status", renderer_pixbuf, icon_name=3)
-        treeview.append_column(column_pixbuf)
 
-        self.add(treeview)
 
+        test_list = [["List1"], ["List2"], ["List3"]]
+        for list_item in test_list:
+            self.liststore_combo.append(list_item)
+        
+        window = builder.get_object('window')
+        window.show_all()
+        
         #self.timeout_id = GLib.timeout_add(100, self.on_timeout, None)
 
     def on_cell_toggled(self, widget, path):
-        self.liststore[path][0] = not self.liststore[path][0]
+        self.liststore_computer[path][0] = not self.liststore_computer[path][0]
+    
+    def on_radio_file_group_changed(self, widget):
+        print("")
+        
+    def on_radio_cmd_group_changed(self, widget):
+        print("")        
+        
+    def on_checkbutton_all_toggled(self, widget):
+        print("toggle selection to all or none")
 
+    def combo_computers_changed_cb(self, widget):
+        print("")
+
+    def on_button_computers_clicked(self, widget):
+        print("")
+
+                
+    def on_button_file_clicked(self, widget):
+        print("file selection")
+    
+    def on_button_add_clicked(self, widget):
+        print("")
+    
+    def on_button_apply_clicked(self, widget):
+        print("")
+        
+    def on_button_stop_clicked(self, widget):
+        print("")
+        
+    def on_button_quit_clicked(self, widget):
+        print("")
+        Gtk.main_quit()
+        
     def on_timeout(self, user_data):
-        new_value = self.liststore[self.current_iter][1] + 1
+        new_value = self.liststore_computers[self.current_iter][1] + 1
         if new_value > 100:
-            self.current_iter = self.liststore.iter_next(self.current_iter)
+            self.current_iter = self.liststore_computers.iter_next(self.current_iter)
             if self.current_iter is None:
                 self.reset_model()
-            new_value = self.liststore[self.current_iter][1] + 1
+            new_value = self.liststore_computers[self.current_iter][1] + 1
 
-        self.liststore[self.current_iter][1] = new_value
+        self.liststore_computers[self.current_iter][1] = new_value
         return True
 
     def reset_model(self):
-        for row in self.liststore:
+        for row in self.liststore_computers:
             row[1] = 0
-        self.current_iter = self.liststore.get_iter_first()
+        self.current_iter = self.liststore_computers.get_iter_first()
         
 
     
@@ -71,7 +119,6 @@ class CellRendererProgressWindow(Gtk.Window):
     #sftp.put("myfile","myRemoteFile",callback=printTotals)
 
 
-win = CellRendererProgressWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+if __name__ == "__main__":
+    Multipush()
+    Gtk.main()
