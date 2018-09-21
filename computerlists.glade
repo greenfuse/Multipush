@@ -4,14 +4,10 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkListStore" id="liststore_computers">
     <columns>
-      <!-- column-name Select -->
-      <column type="gboolean"/>
       <!-- column-name Status -->
       <column type="GdkPixbuf"/>
       <!-- column-name Computer -->
       <column type="gchararray"/>
-      <!-- column-name Progress -->
-      <column type="gint"/>
     </columns>
   </object>
   <object class="GtkDialog">
@@ -283,7 +279,9 @@
   </object>
   <object class="GtkListStore" id="liststore_list">
     <columns>
-      <!-- column-name gchararray1 -->
+      <!-- column-name listname -->
+      <column type="gchararray"/>
+      <!-- column-name accountname -->
       <column type="gchararray"/>
     </columns>
   </object>
