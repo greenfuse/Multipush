@@ -74,12 +74,14 @@ class Multipush(Gtk.Window):
     def combo_computers_changed_cb(self, widget):
         print("")
 
+    def on_button_file_clicked(self, widget):
+        print("file selection")
+        
     def on_button_computers_clicked(self, widget):
         print("")
 
-                
-    def on_button_file_clicked(self, widget):
-        print("file selection")
+    def on_button_auth_clicked(self, widget):
+        print("open authorisation management window")
     
     def on_button_add_clicked(self, widget):
         print("")
