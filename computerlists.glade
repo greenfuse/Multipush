@@ -10,7 +10,7 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkDialog">
+  <object class="GtkDialog" id="dialog">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <child type="titlebar">

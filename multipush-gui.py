@@ -1,11 +1,16 @@
+#!/usr/bin/env python3
+
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, GdkPixbuf
 
+import dialogs
+from dialogs import ComputerList
+
 class Multipush(Gtk.Window):
     def __init__(self):
         builder = Gtk.Builder()
-        builder.add_from_file('gladebuildertest.glade')
+        builder.add_from_file('multipush.glade')
         builder.connect_signals(self)
 
         self.liststore_computers = builder.get_object('liststore_computers')
@@ -79,12 +84,11 @@ class Multipush(Gtk.Window):
         
     def on_button_computers_clicked(self, widget):
         print("")
-
+        dialog = ComputerList(self)
+        response = dialog.run()
+        
     def on_button_auth_clicked(self, widget):
         print("open authorisation management window")
-    
-    def on_button_add_clicked(self, widget):
-        print("")
     
     def on_button_apply_clicked(self, widget):
         print("")
