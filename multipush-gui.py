@@ -20,7 +20,8 @@ class Multipush(object):
         self.liststore_computers = go('liststore_computers')
         self.liststore_combo = go('liststore_combo')
         self.combobox = go('combobox') 
-        
+        self.combobox_cl = go('combobox_cl')
+        self.liststore_combo_cl = go('liststore_combo_cl')        
         test_list = [
               ["List1", "User1"]
             , ["List2", "User2"]
@@ -30,7 +31,15 @@ class Multipush(object):
             self.liststore_combo.append(list_item)
 
         self.combobox.set_active(0)    
-            
+        
+        for list_item in test_list:
+            self.liststore_combo_cl.append(list_item)
+        self.combobox_cl.set_active(0)    
+
+        for list_item in test_list:
+            self.liststore_combo_cl.append(list_item)
+        self.combobox_cl.set_active(0)    
+
         #create solid colour image
         red = 0xffbbbbff
         green = 0xa3f079ff
@@ -59,6 +68,8 @@ class Multipush(object):
         for test_row in test_rows:
             self.liststore_computers.append(test_row)        
 
+
+
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
         column_toggle = Gtk.TreeViewColumn("", renderer_toggle,
@@ -79,7 +90,7 @@ class Multipush(object):
         self.treeview.append_column(column_progress)
 
 
-        self.window.connect('delete-event', lambda x, y: Gtk.main_quit())
+        #self.window.connect('delete-event', lambda x, y: Gtk.main_quit())
         self.window.show()
         
         #self.timeout_id = GLib.timeout_add(100, self.on_timeout, None)
@@ -110,6 +121,7 @@ class Multipush(object):
     def on_button_del_clicked(self, widget):
         print("Delete")
 
+    #   !!!!  Opens the dialog  !!!!!
     def on_button_edit_clicked(self, widget):
         print("Edit computer lists")
         response = self.dialog_cl.run()
