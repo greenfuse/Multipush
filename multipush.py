@@ -22,7 +22,8 @@ pubkeypath = os.path.join(key_dir, "id_rsa.pub")
 # check if private and public keys are present on local client
 # filepaths are .config/multipush/keys/keyname
 
-
+if not os.path.exists(user_app_dir):
+    os.makedirs(user_app_dir)
 if not os.path.exists(key_dir):
     os.makedirs(key_dir)
     os.chmod(user_app_dir, 0o700)
