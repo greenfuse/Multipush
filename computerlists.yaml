@@ -1,0 +1,25 @@
+Computerlists:
+  - ListName: Workstations
+    Username: admin
+    Computers:
+    - Computername: Computer1
+    - Computername: Computer2
+      Username: root
+    - Computername: Computer3
+    - Computername: Computer4
+  - Listname: Servers
+    Username: serveradmin
+    Computers:
+    - Computername: Server1
+    - Computername: Server2
+    - Computername: Server3
+    - Computername: Server4
+  - Listname: 'Studio Computers'
+    Username: 
+    Computers:
+    - Computername: Studio1
+      Username: studio1admin
+    - Computername: Studio2
+      Username: studio2admin
+    - Computername: Studio3
+      Username: studio3admin
