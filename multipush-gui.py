@@ -3,6 +3,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib, GdkPixbuf
+import multipush
 
 #import dialogs
 #from dialogs import ComputerList
@@ -12,33 +13,34 @@ class Multipush(object):
         self.builder = Gtk.Builder()
         self.builder.add_from_file('multipush.glade')
         self.builder.connect_signals(self)
-        
         go = self.builder.get_object
+        
+        # Window widgets
         self.window = go("window")
-        self.dialog_cl = go("dialog_cl")
         self.treeview = go('treeview')
         self.liststore_computers = go('liststore_computers')
-        self.liststore_combo = go('liststore_combo')
         self.combobox = go('combobox') 
+        self.label_user = go("label_user")
+        # 'Computer List' Dialog Widgets
+        self.dialog_cl = go("dialog_cl")
+        self.treeview_cl = go('treeview_cl')
+        self.liststore_computers_cl = go('liststore_computers_cl')        
         self.combobox_cl = go('combobox_cl')
         self.liststore_combo_cl = go('liststore_combo_cl')        
-        test_list = [
-              ["List1", "User1"]
-            , ["List2", "User2"]
-            , ["LongerList3", "User3"]
-            ]
-        for list_item in test_list:
-            self.liststore_combo.append(list_item)
 
-        self.combobox.set_active(0)    
+        # 'New List' Dialog Widgets
+        self.dialog_nl = go("dialog_nl")
+        self.entry_listname_nl = go("entry_listname_nl")
+        self.entry_username_nl = go("entry_username_nl")
+        self.textview_nl = go("textview_nl")
         
-        for list_item in test_list:
-            self.liststore_combo_cl.append(list_item)
-        self.combobox_cl.set_active(0)    
+        # 'Add Computer' Dialog Widgets
+        self.dialog_add = go("dialog_add")
+        self.textview_add = go("textview_add")
 
-        for list_item in test_list:
-            self.liststore_combo_cl.append(list_item)
-        self.combobox_cl.set_active(0)    
+        #Populate the GUI with lists
+        self.computerlists = multipush.get_computerlists()
+        self.load_lists()
 
         #create solid colour image
         red = 0xffbbbbff
@@ -67,8 +69,6 @@ class Multipush(object):
             
         for test_row in test_rows:
             self.liststore_computers.append(test_row)        
-
-
 
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
@@ -109,9 +109,13 @@ class Multipush(object):
     def on_checkbutton_all_toggled(self, widget):
         print("toggle selection to all or none")
 
-    def combobox_changed_cb(self, widget):
-        print("list the computers")
-
+    def on_combobox_changed(self, widget):
+        listname = widget.get_active_text()
+        username = self.computerlists[listname]['username']
+        usertext = "Connecting as: " + username
+        self.label_user.set_text(usertext)
+        print("Now populate the list")
+        
     def on_button_file_clicked(self, widget):
         print("file selection")
         
@@ -124,6 +128,7 @@ class Multipush(object):
     #   !!!!  Opens the dialog  !!!!!
     def on_button_edit_clicked(self, widget):
         print("Edit computer lists")
+        self.load_lists_cl()
         response = self.dialog_cl.run()
         print(response)
         self.dialog_cl.hide()
@@ -141,16 +146,22 @@ class Multipush(object):
         print("Bye bye")
         Gtk.main_quit()
 
-# ----- Dialog signal handlers -----
+    # ----- 'Computer Lists' Dialog signal handlers -----
 
     def on_button_new_clicked(self, widget):
-        print("New")
-            
+        print("New Computer List")
+        response = self.dialog_nl.run()
+        print(response)
+        self.dialog_nl.hide()
+        
     def on_button_del_clicked(self, widget):
         print("Delete")
         
     def on_button_add_clicked(self, widget):
-        print("Add")
+        print("Add Computers")
+        response = self.dialog_add.run()
+        print(response)
+        self.dialog_add.hide()
         
     def on_button_rem_clicked(self, widget):
         print("Remove")
@@ -160,6 +171,27 @@ class Multipush(object):
 
     def on_button_auth_clicked(self, widget):
         print("Authorise")  
+
+    def on_combobox_cl_changed(self, widget):
+        print("populate the computer list")
+
+    # Populate lists in the Main Window GUI 
+    def load_lists(self):
+        '''Populate the main window drop down list
+        with the names of computer lists'''
+        listnames = tuple(self.computerlists.keys())
+        for listname in listnames:
+            self.combobox.append_text(listname)
+            
+        self.combobox.set_active(0)    
+    
+    def load_lists_cl(self):
+        '''Populate the computerlist dialog drop down list
+        with the names of computer lists'''
+        listnames = tuple(self.computerlists.keys())
+        for listname in listnames:
+            self.combobox_cl.append_text(listname)
+        self.combobox_cl.set_active(0)    
 
 
 
