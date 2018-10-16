@@ -20,7 +20,9 @@ class Multipush(object):
         self.treeview = go('treeview')
         self.liststore_computers = go('liststore_computers')
         self.combobox = go('combobox') 
+        self.checkbutton_all = go('checkbutton_all')
         self.label_user = go("label_user")
+        
         # 'Computer List' Dialog Widgets
         self.dialog_cl = go("dialog_cl")
         self.treeview_cl = go('treeview_cl')
@@ -89,6 +91,13 @@ class Multipush(object):
         response = self.dialog_cl.run()
         print(response)
         self.dialog_cl.hide()
+    
+    def on_checkbutton_all_toggled(self, widget):
+        active_status = widget.get_active()
+        for row in self.liststore_computers:
+            row[0] = active_status
+        self.current_iter = self.liststore_computers.get_iter_first()
+        
                     
     def on_cell_toggled(self, widget, path):
         self.liststore_computers[path][0] = not self.liststore_computers[path][0]
@@ -151,6 +160,7 @@ class Multipush(object):
         self.combobox.set_active(0)    
 
     def list_computers(self, listname):
+        self.checkbutton_all.set_active(False)
         self.liststore_computers.clear()
         computers = self.computerlists[listname]['computers']
         pixel = self.get_colour('grey')
@@ -186,10 +196,10 @@ class Multipush(object):
         listnames = tuple(self.computerlists.keys())
         for listname in listnames:
             self.combobox_cl.append_text(listname)
-        self.combobox_cl.set_active(0)   
+        self.combobox_cl.set_active(0)
 
 
-    def list_computers_cl(self, listname):
+    def list_computers_cl(self, listname):   
         self.liststore_computers_cl.clear()
         computers = self.computerlists[listname]['computers']
         pixel = self.get_colour('grey')
