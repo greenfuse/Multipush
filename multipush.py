@@ -56,6 +56,9 @@ def get_computerlists():
     
     return computerlists 
 
+def write_computerlists(computerlists):
+    with open(computerfile, 'w') as stream:
+        yaml.dump(computerlists, stream)
 
 # attempt to connect with key and 
 # if not, add the public key to the remote computer
