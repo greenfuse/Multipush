@@ -3,6 +3,7 @@
 import os
 import getpass
 import socket
+import shutil
 
 import appdirs
 import yaml
@@ -43,7 +44,13 @@ def local_keys():
 # https://xael.org/pages/python-nmap-en.html
 
 def get_computerlists():
+    if not os.path.exists(user_app_dir):
+        os.makedirs(user_app_dir)
     computerfile = os.path.join(user_app_dir, "computers.yml")
+    if not os.path.exists(computerfile):
+        # for now just copy a config file over
+        # later can trigger 'New List' dialog
+        shutil.copyfile('computers.yml', computerfile)
     with open(computerfile, 'r') as stream:
         computerlists = yaml.safe_load(stream)
     
