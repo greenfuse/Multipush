@@ -33,20 +33,21 @@ class Multipush(object):
         self.entry_listname_nl = go("entry_listname_nl")
         self.entry_username_nl = go("entry_username_nl")
         self.textview_nl = go("textview_nl")
+        self.label_user_cl = go("label_user_cl")
         
         # 'Add Computer' Dialog Widgets
         self.dialog_add = go("dialog_add")
         self.textview_add = go("textview_add")
         
         # Prepare GUI lists
-        self.create_columns(self.treeview)
-        self.computerlists = multipush.get_computerlists()
+        self.computerlists = multipush.get_computerlists()        
+        self.create_columns()
         self.load_lists()
         self.window.show()
         
         #self.timeout_id = GLib.timeout_add(100, self.on_timeout, None)
 
-# ----- Window signal handlers -----
+    # ----- Window signal handlers -----
 
     def on_window_destroy(self, widget):
         Gtk.main_quit()
@@ -83,8 +84,8 @@ class Multipush(object):
         '''
         Opens the dialog window for managing computer lists
         '''
-        print("Edit computer lists")
         self.load_lists_cl()
+        self.create_columns_cl()
         response = self.dialog_cl.run()
         print(response)
         self.dialog_cl.hide()
@@ -129,7 +130,14 @@ class Multipush(object):
         print("Authorise")  
 
     def on_combobox_cl_changed(self, widget):
-        print("populate the computer list")
+        '''
+        When the computer list is selected, list the computers
+        '''
+        listname = widget.get_active_text()
+        username = self.computerlists[listname]['username']
+        usertext = "Connecting as: " + username
+        self.label_user_cl.set_text(usertext)
+        self.list_computers_cl(listname)
         
     # --- Functions to populate the GUI lists --- 
 
@@ -150,26 +158,27 @@ class Multipush(object):
             list_row = [False, pixel, computer, 0]
             self.liststore_computers.append(list_row)        
 
-    def create_columns(self, treeview) :
+    def create_columns(self) :
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
         column_toggle = Gtk.TreeViewColumn("", renderer_toggle,
             active=0)
-        treeview.append_column(column_toggle)
+        self.treeview.append_column(column_toggle)
 
         renderer_pixbuf = Gtk.CellRendererPixbuf()
         column_pixbuf = Gtk.TreeViewColumn("", renderer_pixbuf, pixbuf=1)
-        treeview.append_column(column_pixbuf)
+        self.treeview.append_column(column_pixbuf)
         
         renderer_text = Gtk.CellRendererText()
         column_computer = Gtk.TreeViewColumn("Conputer", renderer_text, text=2)
-        treeview.append_column(column_computer)
+        self.treeview.append_column(column_computer)
 
         renderer_progress = Gtk.CellRendererProgress()
         column_progress = Gtk.TreeViewColumn("Progress", renderer_progress,
             value=3)
-        treeview.append_column(column_progress)
+        self.treeview.append_column(column_progress)
 
+    # --- Functions to populate the computer list dialog ---
     
     def load_lists_cl(self):
         '''Populate the computerlist dialog drop down list
@@ -177,7 +186,25 @@ class Multipush(object):
         listnames = tuple(self.computerlists.keys())
         for listname in listnames:
             self.combobox_cl.append_text(listname)
-        self.combobox_cl.set_active(0)    
+        self.combobox_cl.set_active(0)   
+
+
+    def list_computers_cl(self, listname):
+        self.liststore_computers_cl.clear()
+        computers = self.computerlists[listname]['computers']
+        pixel = self.get_colour('grey')
+        for computer in computers:
+            list_row = [pixel, computer]
+            self.liststore_computers_cl.append(list_row)        
+
+    def create_columns_cl(self) :
+        renderer_pixbuf = Gtk.CellRendererPixbuf()
+        column_pixbuf = Gtk.TreeViewColumn("", renderer_pixbuf, pixbuf=0)
+        self.treeview_cl.append_column(column_pixbuf)
+        
+        renderer_text = Gtk.CellRendererText()
+        column_computer = Gtk.TreeViewColumn("Conputer", renderer_text, text=1)
+        self.treeview_cl.append_column(column_computer)
 
     def get_colour(self, colour):
         #create solid colour image
