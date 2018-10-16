@@ -44,6 +44,7 @@ class Multipush(object):
         # Prepare GUI lists
         self.computerlists = multipush.get_computerlists()        
         self.create_columns()
+        self.create_columns_cl()
         self.load_lists()
         self.window.show()
         
@@ -86,8 +87,9 @@ class Multipush(object):
         '''
         Opens the dialog window for managing computer lists
         '''
+        self.combobox_cl.remove_all()
+        self.liststore_computers_cl.clear()
         self.load_lists_cl()
-        self.create_columns_cl()
         response = self.dialog_cl.run()
         print(response)
         self.dialog_cl.hide()
@@ -97,8 +99,7 @@ class Multipush(object):
         for row in self.liststore_computers:
             row[0] = active_status
         self.current_iter = self.liststore_computers.get_iter_first()
-        
-                    
+                            
     def on_cell_toggled(self, widget, path):
         self.liststore_computers[path][0] = not self.liststore_computers[path][0]
 
@@ -121,8 +122,8 @@ class Multipush(object):
         self.dialog_nl.hide()
         
     def on_button_del_clicked(self, widget):
-        print("Delete")
-        
+        print("delete")
+                    
     def on_button_add_clicked(self, widget):
         print("Add Computers")
         response = self.dialog_add.run()
@@ -130,8 +131,13 @@ class Multipush(object):
         self.dialog_add.hide()
         
     def on_button_rem_clicked(self, widget):
-        print("Remove")
-        
+        selection = self.treeview_cl.get_selection()
+        model, paths = selection.get_selected_rows()
+
+        for path in paths:
+           iter = model.get_iter(path)
+           model.remove(iter)
+
     def on_button_ref_clicked(self, widget):
         print("Refresh")    
 
