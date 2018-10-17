@@ -25,26 +25,13 @@ class Multipush(object):
         
         # 'Computer List' Dialog Widgets
         self.dialog_cl = go("dialog_cl")
-        self.treeview_cl = go('treeview_cl')
-        self.liststore_computers_cl = go('liststore_computers_cl')        
-        self.combobox_cl = go('combobox_cl')
-        self.liststore_combo_cl = go('liststore_combo_cl')        
-
-        # 'New List' Dialog Widgets
-        self.dialog_nl = go("dialog_nl")
-        self.entry_listname_nl = go("entry_listname_nl")
-        self.entry_username_nl = go("entry_username_nl")
-        self.textview_nl = go("textview_nl")
-        self.label_user_cl = go("label_user_cl")
-        
-        # 'Add Computer' Dialog Widgets
-        self.dialog_add = go("dialog_add")
-        self.textview_add = go("textview_add")
+        self.entry_listname_cl = go("entry_listname_cl")
+        self.entry_username_cl = go("entry_username_cl")
+        self.textview_cl = go("textview_cl")
         
         # Prepare GUI lists
         self.computerlists = multipush.get_computerlists()        
         self.create_columns()
-        self.create_columns_cl()
         self.load_lists()
         self.window.show()
         
@@ -77,23 +64,48 @@ class Multipush(object):
     def on_button_file_clicked(self, widget):
         print("file selection")
         
-    def on_button_dest_clicked(self, widget):
+    def on_button_to_clicked(self, widget):
         print("Select Destination Directory")
-               
-    def on_button_del_clicked(self, widget):
-        print("Delete")
+
 
     def on_button_edit_clicked(self, widget):
         '''
         Opens the dialog window for managing computer lists
         '''
-        self.combobox_cl.remove_all()
-        self.liststore_computers_cl.clear()
-        self.load_lists_cl()
+        listname = self.combobox.get_active_text()
+        username = self.computerlists[listname]['username']
+        computers = self.computerlists[listname]['computers']
+        self.entry_listname_cl.set_text(listname)
+        self.entry_username_cl.set_text(username)
+        textbuffer = self.textview_cl.get_buffer()
+        textbuffer.set_text("")
+        for computer in computers:
+            newline = computer +  '\n'
+            end_iter = textbuffer.get_end_iter()
+            textbuffer.insert(end_iter, newline)
+        
         response = self.dialog_cl.run()
         print(response)
         self.dialog_cl.hide()
-    
+                
+    def on_button_del_clicked(self, widget):
+        print("Delete")   
+
+    def on_button_new_clicked(self, widget):
+        self.entry_listname_cl.set_text("")
+        self.entry_username_cl.set_text("")
+        textbuffer = self.textview_cl.get_buffer()
+        textbuffer.set_text("")
+        response = self.dialog_cl.run()
+        print(response)
+        self.dialog_cl.hide()         
+        
+    def on_button_ref_clicked(self, widget):
+        print("Refresh")    
+
+    def on_button_auth_clicked(self, widget):
+        print("Authorise") 
+        
     def on_checkbutton_all_toggled(self, widget):
         active_status = widget.get_active()
         for row in self.liststore_computers:
@@ -112,37 +124,7 @@ class Multipush(object):
     def on_button_quit_clicked(self, widget):
         print("Bye bye")
         Gtk.main_quit()
-
-    # ----- 'Computer Lists' Dialog signal handlers -----
-
-    def on_button_new_clicked(self, widget):
-        print("New Computer List")
-        response = self.dialog_nl.run()
-        print(response)
-        self.dialog_nl.hide()
-        
-    def on_button_del_clicked(self, widget):
-        print("delete")
-                    
-    def on_button_add_clicked(self, widget):
-        print("Add Computers")
-        response = self.dialog_add.run()
-        print(response)
-        self.dialog_add.hide()
-        
-    def on_button_rem_clicked(self, widget):
-        selection = self.treeview_cl.get_selection()
-        model, paths = selection.get_selected_rows()
-
-        for path in paths:
-           iter = model.get_iter(path)
-           model.remove(iter)
-
-    def on_button_ref_clicked(self, widget):
-        print("Refresh")    
-
-    def on_button_auth_clicked(self, widget):
-        print("Authorise")  
+ 
 
     def on_combobox_cl_changed(self, widget):
         '''
@@ -193,34 +175,6 @@ class Multipush(object):
         column_progress = Gtk.TreeViewColumn("Progress", renderer_progress,
             value=3)
         self.treeview.append_column(column_progress)
-
-    # --- Functions to populate the computer list dialog ---
-    
-    def load_lists_cl(self):
-        '''Populate the computerlist dialog drop down list
-        with the names of computer lists'''
-        listnames = tuple(self.computerlists.keys())
-        for listname in listnames:
-            self.combobox_cl.append_text(listname)
-        self.combobox_cl.set_active(0)
-
-
-    def list_computers_cl(self, listname):   
-        self.liststore_computers_cl.clear()
-        computers = self.computerlists[listname]['computers']
-        pixel = self.get_colour('grey')
-        for computer in computers:
-            list_row = [pixel, computer]
-            self.liststore_computers_cl.append(list_row)        
-
-    def create_columns_cl(self) :
-        renderer_pixbuf = Gtk.CellRendererPixbuf()
-        column_pixbuf = Gtk.TreeViewColumn("", renderer_pixbuf, pixbuf=0)
-        self.treeview_cl.append_column(column_pixbuf)
-        
-        renderer_text = Gtk.CellRendererText()
-        column_computer = Gtk.TreeViewColumn("Conputer", renderer_text, text=1)
-        self.treeview_cl.append_column(column_computer)
 
     def get_colour(self, colour):
         #create solid colour image
