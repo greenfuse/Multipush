@@ -16,7 +16,7 @@
   </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
-    <property name="default_width">320</property>
+    <property name="default_width">480</property>
     <property name="default_height">420</property>
     <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child type="titlebar">
@@ -36,9 +36,9 @@
           <object class="GtkEntry" id="entry_cmd">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_left">10</property>
             <property name="margin_right">10</property>
-            <property name="margin_top">5</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">5</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -51,7 +51,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="margin_top">10</property>
-            <property name="margin_bottom">10</property>
+            <property name="margin_bottom">5</property>
             <property name="hexpand">True</property>
           </object>
           <packing>
@@ -70,7 +70,7 @@
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="margin_top">10</property>
-            <property name="margin_bottom">10</property>
+            <property name="margin_bottom">5</property>
             <property name="use_stock">True</property>
             <property name="image_position">right</property>
             <property name="always_show_image">True</property>
@@ -85,7 +85,8 @@
           <object class="GtkButtonBox" id="button_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">2</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">5</property>
             <property name="orientation">vertical</property>
             <property name="spacing">8</property>
             <property name="layout_style">start</property>
@@ -97,6 +98,7 @@
                 <property name="receives_default">False</property>
                 <property name="halign">start</property>
                 <property name="margin_top">10</property>
+                <property name="margin_bottom">5</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
               </object>
@@ -115,6 +117,7 @@
                 <property name="receives_default">False</property>
                 <property name="halign">start</property>
                 <property name="margin_top">10</property>
+                <property name="margin_bottom">5</property>
                 <property name="draw_indicator">True</property>
                 <property name="group">radio_cmd</property>
               </object>
@@ -144,7 +147,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">5</property>
           </packing>
         </child>
         <child>
@@ -156,6 +159,8 @@
             <property name="receives_default">True</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <property name="margin_top">10</property>
             <property name="margin_bottom">10</property>
             <property name="use_stock">True</property>
@@ -164,8 +169,8 @@
             <signal name="clicked" handler="on_button_edit_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="left_attach">4</property>
-            <property name="top_attach">3</property>
+            <property name="left_attach">2</property>
+            <property name="top_attach">4</property>
           </packing>
         </child>
         <child>
@@ -194,7 +199,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">5</property>
+            <property name="top_attach">6</property>
             <property name="width">5</property>
           </packing>
         </child>
@@ -220,7 +225,7 @@
           </object>
           <packing>
             <property name="left_attach">4</property>
-            <property name="top_attach">6</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
@@ -243,7 +248,7 @@
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="top_attach">6</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
@@ -266,7 +271,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">6</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
@@ -277,11 +282,13 @@
             <property name="receives_default">True</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
-            <property name="margin_top">10</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+            <property name="margin_top">5</property>
             <property name="margin_bottom">10</property>
             <property name="image_position">right</property>
             <property name="always_show_image">True</property>
-            <signal name="clicked" handler="on_button_dest_clicked" swapped="no"/>
+            <signal name="clicked" handler="on_button_to_clicked" swapped="no"/>
             <child>
               <object class="GtkBox" id="hbox">
                 <property name="visible">True</property>
@@ -292,7 +299,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_right">3</property>
-                    <property name="label" translatable="yes">Dest</property>
+                    <property name="label" translatable="yes">To</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -306,7 +313,7 @@
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
                     <property name="valign">center</property>
-                    <property name="margin_left">2</property>
+                    <property name="margin_left">5</property>
                     <property name="stock">gtk-directory</property>
                   </object>
                   <packing>
@@ -327,7 +334,7 @@
           <object class="GtkEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_top">10</property>
+            <property name="margin_top">5</property>
             <property name="margin_bottom">10</property>
           </object>
           <packing>
@@ -340,7 +347,6 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">end</property>
             <property name="margin_right">10</property>
             <property name="label" translatable="yes">To:</property>
             <property name="justify">right</property>
@@ -359,8 +365,8 @@
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="top_attach">4</property>
-            <property name="width">4</property>
+            <property name="top_attach">5</property>
+            <property name="width">3</property>
           </packing>
         </child>
         <child>
@@ -369,18 +375,151 @@
             <property name="can_focus">False</property>
             <property name="margin_left">10</property>
             <property name="margin_right">5</property>
-            <property name="margin_top">5</property>
+            <property name="margin_top">10</property>
             <property name="margin_bottom">10</property>
             <signal name="changed" handler="on_combobox_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">3</property>
-            <property name="width">4</property>
+            <property name="top_attach">4</property>
+            <property name="width">2</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkButton" id="button_new">
+            <property name="label">gtk-new</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+            <property name="use_stock">True</property>
+            <property name="image_position">right</property>
+            <property name="always_show_image">True</property>
+            <signal name="clicked" handler="on_button_new_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">4</property>
+            <property name="top_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_auth">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+            <signal name="clicked" handler="on_button_auth_clicked" swapped="no"/>
+            <child>
+              <object class="GtkBox" id="hbox2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <child>
+                  <object class="GtkLabel" id="label_auth1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Auth</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image_auth1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-dialog-authentication</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">4</property>
+            <property name="top_attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
+            <property name="width">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_right">100</property>
+            <property name="hexpand">False</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="top_attach">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_ref">
+            <property name="label">gtk-refresh</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+            <property name="hexpand">True</property>
+            <property name="use_stock">True</property>
+            <property name="image_position">right</property>
+            <property name="always_show_image">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="top_attach">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_del">
+            <property name="label">gtk-delete</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+            <property name="hexpand">True</property>
+            <property name="use_stock">True</property>
+            <property name="image_position">right</property>
+            <property name="always_show_image">True</property>
+            <signal name="clicked" handler="on_button_del_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">3</property>
+            <property name="top_attach">4</property>
+          </packing>
         </child>
         <child>
           <placeholder/>
@@ -388,14 +527,8 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="liststore_computers_cl">
-    <columns>
-      <!-- column-name status -->
-      <column type="GdkPixbuf"/>
-      <!-- column-name computer -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
+  <object class="GtkTextBuffer" id="textbuffer_add"/>
+  <object class="GtkTextBuffer" id="textbuffer_cl"/>
   <object class="GtkDialog" id="dialog_cl">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
@@ -403,7 +536,7 @@
       <object class="GtkHeaderBar" id="headerbar_cl">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="title" translatable="yes">Computer Lists</property>
+        <property name="title" translatable="yes">Computer List</property>
         <property name="show_close_button">True</property>
       </object>
     </child>
@@ -412,7 +545,7 @@
       <action-widget response="-5">ok_cl</action-widget>
     </action-widgets>
     <child internal-child="vbox">
-      <object class="GtkBox">
+      <object class="GtkBox" id="vbox_cl">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -427,10 +560,11 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
+                <property name="image_position">right</property>
                 <property name="always_show_image">True</property>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -462,394 +596,8 @@
           <object class="GtkGrid" id="grid_cl">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="valign">start</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">False</property>
             <child>
-              <object class="GtkButton" id="button_new">
-                <property name="label">gtk-new</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_button_new_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_del">
-                <property name="label">gtk-delete</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_button_del_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_add">
-                <property name="label">gtk-add</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">2</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_rem">
-                <property name="label">gtk-remove</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="margin_top">2</property>
-                <property name="margin_bottom">2</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_button_rem_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_ref">
-                <property name="label">gtk-refresh</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="margin_top">2</property>
-                <property name="margin_bottom">10</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_button_ref_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">4</property>
-                <property name="height">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_auth">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
-                <signal name="clicked" handler="on_button_auth_clicked" swapped="no"/>
-                <child>
-                  <object class="GtkBox" id="hbox1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label_auth">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Auth</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage" id="image_auth">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="stock">gtk-dialog-authentication</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="scroll_cl">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <object class="GtkTreeView" id="treeview_cl">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="hscroll_policy">natural</property>
-                    <property name="vscroll_policy">natural</property>
-                    <property name="model">liststore_computers_cl</property>
-                    <property name="search_column">0</property>
-                    <property name="rubber_banding">True</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection">
-                        <property name="mode">multiple</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-                <property name="width">3</property>
-                <property name="height">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBoxText" id="combobox_cl">
-                <property name="name">combobox_cl</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">10</property>
-                <property name="margin_right">10</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="hexpand">False</property>
-                <signal name="changed" handler="on_combobox_cl_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_user_cl">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="margin_left">10</property>
-                <property name="margin_right">10</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="hexpand">True</property>
-                <property name="label" translatable="yes">Connecting as: </property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-                <property name="width">4</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_cl</action-widget>
-      <action-widget response="-5">ok_cl</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkTextBuffer" id="textbuffer_add"/>
-  <object class="GtkDialog" id="dialog_add">
-    <property name="can_focus">False</property>
-    <property name="type_hint">dialog</property>
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar_add">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="title" translatable="yes">Add Computer Names</property>
-        <property name="show_close_button">True</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_add</action-widget>
-    </action-widgets>
-    <child internal-child="vbox">
-      <object class="GtkBox">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="cancel_add">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="ok_add">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="scroll_add">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">10</property>
-            <property name="shadow_type">in</property>
-            <property name="min_content_height">200</property>
-            <property name="max_content_height">200</property>
-            <child>
-              <object class="GtkTextView" id="textview_add">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="buffer">textbuffer_add</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_add</action-widget>
-    </action-widgets>
-  </object>
-  <object class="GtkTextBuffer" id="textbuffer_nl"/>
-  <object class="GtkDialog" id="dialog_nl">
-    <property name="can_focus">False</property>
-    <property name="type_hint">dialog</property>
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar_nl">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="title" translatable="yes">New List</property>
-        <property name="show_close_button">True</property>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">cancel_nl</action-widget>
-      <action-widget response="-5">ok_nl</action-widget>
-    </action-widgets>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="vbox_nl">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="cancel_nl">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="ok_nl">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="image_position">right</property>
-                <property name="always_show_image">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkGrid" id="grid_nl">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label_listname_nl">
+              <object class="GtkLabel" id="label_listname_cl">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
@@ -865,7 +613,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_listname_nl">
+              <object class="GtkEntry" id="entry_listname_cl">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">5</property>
@@ -880,7 +628,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label_username_nl">
+              <object class="GtkLabel" id="label_username_cl">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
@@ -896,7 +644,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_username_nl">
+              <object class="GtkEntry" id="entry_username_cl">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">5</property>
@@ -911,7 +659,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow" id="scroll_nl">
+              <object class="GtkScrolledWindow" id="scroll_cl">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_top">5</property>
@@ -920,10 +668,10 @@
                 <property name="min_content_height">200</property>
                 <property name="max_content_height">200</property>
                 <child>
-                  <object class="GtkTextView" id="textview_nl">
+                  <object class="GtkTextView" id="textview_cl">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="buffer">textbuffer_nl</property>
+                    <property name="buffer">textbuffer_cl</property>
                   </object>
                 </child>
               </object>
@@ -959,8 +707,8 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">cancel_nl</action-widget>
-      <action-widget response="-5">ok_nl</action-widget>
+      <action-widget response="-6">cancel_cl</action-widget>
+      <action-widget response="-5">ok_cl</action-widget>
     </action-widgets>
   </object>
 </interface>
