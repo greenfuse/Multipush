@@ -25,6 +25,7 @@ class Multipush(object):
         
         # 'Computer List' Dialog Widgets
         self.dialog_cl = go("dialog_cl")
+        self.headerbar_cl = go("headerbar_cl")
         self.entry_listname_cl = go("entry_listname_cl")
         self.entry_username_cl = go("entry_username_cl")
         self.textview_cl = go("textview_cl")
@@ -56,10 +57,13 @@ class Multipush(object):
         When the computer list is selected, list the computers
         '''
         listname = widget.get_active_text()
-        username = self.computerlists[listname]['username']
-        usertext = "Connecting as: " + username
-        self.label_user.set_text(usertext)
-        self.list_computers(listname)
+        self.checkbutton_all.set_active(False)
+        self.liststore_computers.clear()
+        if listname:
+            username = self.computerlists[listname]['username']
+            usertext = "Connecting as: " + username
+            self.label_user.set_text(usertext)
+            self.list_computers(listname)
         
     def on_button_file_clicked(self, widget):
         print("file selection")
@@ -72,6 +76,7 @@ class Multipush(object):
         '''
         Opens the dialog window for managing computer lists
         '''
+        self.headerbar_cl.set_subtitle("Edit")
         listname = self.combobox.get_active_text()
         username = self.computerlists[listname]['username']
         computers = self.computerlists[listname]['computers']
@@ -85,13 +90,21 @@ class Multipush(object):
             textbuffer.insert(end_iter, newline)
         
         response = self.dialog_cl.run()
-        print(response)
+        if response == Gtk.ResponseType.OK:
+            self.update_lists()
+        
         self.dialog_cl.hide()
                 
     def on_button_del_clicked(self, widget):
-        print("Delete")   
+        print("Delete")
+        listname = self.combobox.get_active_text()
+        self.computerlists.pop(listname)
+        multipush.write_computerlists(self.computerlists)
+        self.load_lists()
+        
 
     def on_button_new_clicked(self, widget):
+        self.headerbar_cl.set_subtitle("New")
         self.entry_listname_cl.set_text("")
         self.entry_username_cl.set_text("")
         textbuffer = self.textview_cl.get_buffer()
@@ -126,23 +139,13 @@ class Multipush(object):
     def on_button_quit_clicked(self, widget):
         print("Bye bye")
         Gtk.main_quit()
- 
-
-    def on_combobox_cl_changed(self, widget):
-        '''
-        When the computer list is selected, list the computers
-        '''
-        listname = widget.get_active_text()
-        username = self.computerlists[listname]['username']
-        usertext = "Connecting as: " + username
-        self.label_user_cl.set_text(usertext)
-        self.list_computers_cl(listname)
         
     # --- Functions to populate the GUI lists --- 
 
     def load_lists(self):
         '''Populate the main window drop down list
         with the names of computer lists'''
+        self.combobox.remove_all()
         listnames = tuple(self.computerlists.keys())
         for listname in listnames:
             self.combobox.append_text(listname)
@@ -150,8 +153,6 @@ class Multipush(object):
         self.combobox.set_active(0)    
 
     def list_computers(self, listname):
-        self.checkbutton_all.set_active(False)
-        self.liststore_computers.clear()
         computers = self.computerlists[listname]['computers']
         pixel = self.get_colour('grey')
         for computer in computers:
@@ -197,8 +198,12 @@ class Multipush(object):
 
     def update_lists(self):
             # get the details of the new list
+            subtitle = self.headerbar_cl.get_subtitle()
             username = self.entry_username_cl.get_text()
             listname = self.entry_listname_cl.get_text()
+            if subtitle == 'New' and listname in self.computerlists: 
+                print("Confirm Overwrite")
+
             textbuffer = self.textview_cl.get_buffer()
             start_iter = textbuffer.get_start_iter()
             end_iter = textbuffer.get_end_iter()
@@ -206,11 +211,11 @@ class Multipush(object):
             computers = [y for y in (x.strip() for x in computerlist.splitlines()) if y]
             # ensure that none of the above is empty
             if not all([username, listname, computers]):
-                print ("bugger off!")
-            
+                print ("Need to fill in all fields")
+
             else:
                 # update the dictionary of lists
-
+ 
                 computerlist = {
                     listname: {
                         'username': username, 
@@ -218,10 +223,14 @@ class Multipush(object):
                         }
                     }
                     
-                self.computerlists.update(computerlist)
-                print(self.computerlists)                
+                self.computerlists.update(computerlist)  
                 # update the conputers.yml file
+                multipush.write_computerlists(self.computerlists)
                 # update the GUI main window
+                listnames = tuple(self.computerlists.keys())
+                position = listnames.index(listname)
+                self.load_lists()
+                self.combobox.set_active(position)
     
     def reset_model(self):
         for row in self.liststore_computers:
