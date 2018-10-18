@@ -18,6 +18,7 @@ hostname = socket.gethostname()
 comment = "multipush-" + username + "@" + hostname
 
 user_app_dir = os.path.join(user_config, "multipush")
+computerfile = os.path.join(user_app_dir, "computers.yml")
 key_dir = os.path.join(user_app_dir, "keys")
 prvkeypath = os.path.join(key_dir, "id_rsa")
 pubkeypath = os.path.join(key_dir, "id_rsa.pub")
@@ -46,7 +47,6 @@ def local_keys():
 def get_computerlists():
     if not os.path.exists(user_app_dir):
         os.makedirs(user_app_dir)
-    computerfile = os.path.join(user_app_dir, "computers.yml")
     if not os.path.exists(computerfile):
         # for now just copy a config file over
         # later can trigger 'New List' dialog
