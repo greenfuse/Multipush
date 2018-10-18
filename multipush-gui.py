@@ -97,7 +97,9 @@ class Multipush(object):
         textbuffer = self.textview_cl.get_buffer()
         textbuffer.set_text("")
         response = self.dialog_cl.run()
-        print(response)
+        if response == Gtk.ResponseType.OK:
+            self.update_lists()
+        
         self.dialog_cl.hide()         
         
     def on_button_ref_clicked(self, widget):
@@ -192,6 +194,34 @@ class Multipush(object):
         pixel.fill(colour_hashes[colour])   
         
         return pixel     
+
+    def update_lists(self):
+            # get the details of the new list
+            username = self.entry_username_cl.get_text()
+            listname = self.entry_listname_cl.get_text()
+            textbuffer = self.textview_cl.get_buffer()
+            start_iter = textbuffer.get_start_iter()
+            end_iter = textbuffer.get_end_iter()
+            computerlist = textbuffer.get_text(start_iter, end_iter, False)
+            computers = [y for y in (x.strip() for x in computerlist.splitlines()) if y]
+            # ensure that none of the above is empty
+            if not all([username, listname, computers]):
+                print ("bugger off!")
+            
+            else:
+                # update the dictionary of lists
+
+                computerlist = {
+                    listname: {
+                        'username': username, 
+                        'computers': computers
+                        }
+                    }
+                    
+                self.computerlists.update(computerlist)
+                print(self.computerlists)                
+                # update the conputers.yml file
+                # update the GUI main window
     
     def reset_model(self):
         for row in self.liststore_computers:
