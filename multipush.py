@@ -60,10 +60,40 @@ def write_computerlists(computerlists):
     with open(computerfile, 'w') as stream:
         yaml.dump(computerlists, stream)
 
-# attempt to connect with key and 
-# if not, add the public key to the remote computer
-#username = 
-#keyhandling.writeauthorize(pubkeypath, computer, username, password)
+def add_public_key(username, password, computers):
+    for computer in computers:
+        print('authorise public key for ' + username + '@' + computer)
+        #keyhandling.writeauthorize(pubkeypath, computer, username, password)
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(computername, username=username, password=password, key_filename=prvkeypath)
+
+def check_computer_status(computer):
+    # for connection
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        result = sock.connect_ex((computer, 22))
+    except socket.gaierror:
+        # unable to resolve host name
+        result = 999
+
+
+    # 111 is online but ssh port (22) is not open    
+    if result == 999:
+        status = 'unresolved'
+
+    if result == 111:
+        status = 'closed'
+
+    # 113 not online
+    elif result == 113:
+        status = 'offline'
+
+    # 0 is avalable and ssh port (default 22) is open   
+    elif result == 0:
+        status = 'open'
+
+    return status
 
 '''
 #example command line ref
