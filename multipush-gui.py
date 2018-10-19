@@ -23,12 +23,17 @@ class Multipush(object):
         self.checkbutton_all = go('checkbutton_all')
         self.label_user = go("label_user")
         
-        # 'Computer List' Dialog Widgets
+        # 'Computer List' dialog widgets
         self.dialog_cl = go("dialog_cl")
         self.headerbar_cl = go("headerbar_cl")
         self.entry_listname_cl = go("entry_listname_cl")
         self.entry_username_cl = go("entry_username_cl")
         self.textview_cl = go("textview_cl")
+        
+        # Authorisation dialog widgets
+        self.dialog_auth = go('dialog_auth')
+        self.headerbar_auth = go('headerbar_auth')
+        self.entry_auth = go('entry_auth')
         
         # Prepare GUI lists
         self.computerlists = multipush.get_computerlists()        
@@ -114,12 +119,19 @@ class Multipush(object):
             self.update_lists()
         
         self.dialog_cl.hide()         
-        
-    def on_button_ref_clicked(self, widget):
-        print("Refresh")    
+
 
     def on_button_auth_clicked(self, widget):
-        print("Authorise") 
+        listname = self.combobox.get_active_text()
+        username = self.computerlists[listname]['username']
+        self.headerbar_auth.set_subtitle(username)        
+        response = self.dialog_auth.run()
+        self.dialog_auth.hide()
+        self.entry_auth.set_text("")
+        if response == Gtk.ResponseType.OK:
+            password = self.entry_auth.get_text()
+            computers = self.get_selected_computers()
+            multipush.add_public_key(username, password, computers)
         
     def on_checkbutton_all_toggled(self, widget):
         active_status = widget.get_active()
@@ -135,6 +147,9 @@ class Multipush(object):
         
     def on_button_stop_clicked(self, widget):
         print("Stop")
+         
+    def on_button_ref_clicked(self, widget):
+        self.check_computer_status()    
         
     def on_button_quit_clicked(self, widget):
         print("Bye bye")
@@ -157,7 +172,8 @@ class Multipush(object):
         pixel = self.get_colour('grey')
         for computer in computers:
             list_row = [False, pixel, computer, 0]
-            self.liststore_computers.append(list_row)        
+            self.liststore_computers.append(list_row)
+        self.check_computer_status()
 
     def create_columns(self) :
         renderer_toggle = Gtk.CellRendererToggle()
@@ -231,6 +247,32 @@ class Multipush(object):
                 position = listnames.index(listname)
                 self.load_lists()
                 self.combobox.set_active(position)
+
+    def get_selected_computers(self):
+        computers = []
+        for row in self.liststore_computers:
+            if row[0]:
+                computers.append(row[2])
+        return computers
+        
+    def check_computer_status(self):
+        for row in self.liststore_computers:
+            computer = row[2]
+            status = multipush.check_computer_status(computer)
+            print((computer, status))
+            if status == 'open':
+                #set the toggle as available
+                toggle = row[0]
+                toggle.set_activatable(1)
+                row[0] = toggle
+                #set the colour to green
+                pixel = self.get_colour('green')
+                row[1] = pixel
+            else:
+                #set the toggle as unavailable and off
+                #set the colour to grey
+                pixel = self.get_colour('grey')
+                row[1] = pixel
     
     def reset_model(self):
         for row in self.liststore_computers:
@@ -251,3 +293,4 @@ class Multipush(object):
 if __name__ == "__main__":
     gui = Multipush()
     Gtk.main()
+    
