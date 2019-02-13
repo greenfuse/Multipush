@@ -52,8 +52,8 @@ class Multipush(object):
 
     def set_selectable(self, treeselection, model, path, current):
         connected = model[path][4]
-        if not connected:
-            model[path][0] = False
+        # if not connected:
+        #     model[path][0] = False
         return connected
     
     def on_radio_file_group_changed(self, widget):
@@ -208,7 +208,16 @@ class Multipush(object):
         column_toggle1 = Gtk.TreeViewColumn("Connected", renderer_toggle1,
             active=4)
         column_toggle1.set_visible(False)
+        column_toggle1.set_cell_data_func(renderer_toggle1, self.set_toggle)
         self.treeview.append_column(column_toggle1)
+
+    def set_toggle(self, column, cell, model, iter, user_data):
+        connected = model.get_value(iter, 4)
+        #print(connected)
+        if not connected:
+            cell.set_activatable(False)
+            model[iter][0] = False
+            
 
     def get_colour(self, colour):
         #create solid colour image
