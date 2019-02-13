@@ -121,6 +121,8 @@
       <column type="gchararray"/>
       <!-- column-name Progress -->
       <column type="gint"/>
+      <!-- column-name Connected -->
+      <column type="gboolean"/>
     </columns>
   </object>
   <object class="GtkWindow" id="window">
