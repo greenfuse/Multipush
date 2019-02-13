@@ -19,6 +19,8 @@ class Multipush(object):
         self.window = go("window")
         self.treeview = go('treeview')
         self.liststore_computers = go('liststore_computers')
+        self.treeselection = self.treeview.get_selection()
+        self.treeselection.set_select_function(self.set_selectable)
         self.combobox = go('combobox') 
         self.checkbutton_all = go('checkbutton_all')
         self.label_user = go("label_user")
@@ -47,6 +49,12 @@ class Multipush(object):
 
     def on_window_destroy(self, widget):
         Gtk.main_quit()
+
+    def set_selectable(self, treeselection, model, path, current):
+        connected = model[path][4]
+        if not connected:
+            model[path][0] = False
+        return connected
     
     def on_radio_file_group_changed(self, widget):
         print("selected copy file")
@@ -54,8 +62,8 @@ class Multipush(object):
     def on_radio_cmd_group_changed(self, widget):
         print("selected run command")        
         
-    def on_checkbutton_all_toggled(self, widget):
-        print("toggle selection to all or none")
+    # def on_checkbutton_all_toggled(self, widget):
+    #    print("toggle selection to all or none")
 
     def on_combobox_changed(self, widget):
         '''
@@ -171,7 +179,7 @@ class Multipush(object):
         computers = self.computerlists[listname]['computers']
         pixel = self.get_colour('grey')
         for computer in computers:
-            list_row = [False, pixel, computer, 0]
+            list_row = [False, pixel, computer, 0, False]
             self.liststore_computers.append(list_row)
         self.check_computer_status()
 
@@ -194,6 +202,13 @@ class Multipush(object):
         column_progress = Gtk.TreeViewColumn("Progress", renderer_progress,
             value=3)
         self.treeview.append_column(column_progress)
+
+        renderer_toggle1 = Gtk.CellRendererToggle()
+        renderer_toggle1.connect("toggled", self.on_cell_toggled)
+        column_toggle1 = Gtk.TreeViewColumn("Connected", renderer_toggle1,
+            active=4)
+        column_toggle1.set_visible(False)
+        self.treeview.append_column(column_toggle1)
 
     def get_colour(self, colour):
         #create solid colour image
@@ -256,23 +271,38 @@ class Multipush(object):
         return computers
         
     def check_computer_status(self):
+        #rownumber = 0
         for row in self.liststore_computers:
             computer = row[2]
             status = multipush.check_computer_status(computer)
             print((computer, status))
             if status == 'open':
                 #set the toggle as available
-                toggle = row[0]
-                toggle.set_activatable(1)
-                row[0] = toggle
+                # can't work out how to do this
+                row[0] = True
+                
                 #set the colour to green
                 pixel = self.get_colour('green')
                 row[1] = pixel
+                row[4] = True
+
+                #selection  = self.treeview.get_selection()
+                #selection.select_path(rownumber)
+                #selection.set_select_function(True)
+                
             else:
                 #set the toggle as unavailable and off
+                row[0] = False
                 #set the colour to grey
                 pixel = self.get_colour('grey')
                 row[1] = pixel
+                row[4] = False
+
+                #row.set_select_function(False)
+                #selection  = self.treeview.get_selection()
+                #selection.select_path(rownumber)
+                #selection.set_select_function(lambda )
+            #rownumber += 1
     
     def reset_model(self):
         for row in self.liststore_computers:
