@@ -5,15 +5,15 @@ import paramiko
 
 sshdir = ".ssh"
 
-def makenewkeys(prvkeypath, pubkeypath):
+def makenewkeys(prvkeypath, pubkeypath, comment):
     newkey = paramiko.RSAKey.generate(bits=4096)
-    newkey.write_private_key_file(keypath)
+    newkey.write_private_key_file(prvkeypath)
     pubkey = newkey.get_base64()
     pubname = newkey.get_name()
     with open(pubkeypath, "w") as f:
         f.write("%s %s %s" % (pubname, pubkey, comment))
 
-def makepubkey(prvkeypath, pubkeypath):
+def makepubkey(prvkeypath, pubkeypath, comment):
     privkey = paramiko.rsakey.RSAKey(filename=prvkeypath)
     pubkey = privkey.get_base64()
     pubname = newkey.get_name()

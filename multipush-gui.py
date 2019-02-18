@@ -38,7 +38,7 @@ class Multipush(object):
         self.entry_auth = go('entry_auth')
         
         # Prepare GUI lists
-        self.computerlists = multipush.get_computerlists()        
+        self.computerlists = multipush.get_computerlists()       
         self.create_columns()
         self.load_lists()
         self.window.show()
@@ -130,6 +130,7 @@ class Multipush(object):
 
 
     def on_button_auth_clicked(self, widget):
+        multipush.local_keys()
         listname = self.combobox.get_active_text()
         username = self.computerlists[listname]['username']
         self.headerbar_auth.set_subtitle(username)        

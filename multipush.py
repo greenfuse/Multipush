@@ -9,6 +9,7 @@ import appdirs
 import yaml
 
 import keyhandling
+import paramiko
 
 
 homedir = os.path.expanduser("~")
@@ -22,6 +23,8 @@ computerfile = os.path.join(user_app_dir, "computers.yml")
 key_dir = os.path.join(user_app_dir, "keys")
 prvkeypath = os.path.join(key_dir, "id_rsa")
 pubkeypath = os.path.join(key_dir, "id_rsa.pub")
+
+
 # check if private and public keys are present on local client
 # filepaths are .config/multipush/keys/keyname
 
@@ -32,11 +35,11 @@ def local_keys():
         os.makedirs(key_dir)
         os.chmod(user_app_dir, 0o700)
         os.chmod(key_dir, 0o700)
-        keyhandling.makenewkeys(prvkeypath, pubkeypath)
+        keyhandling.makenewkeys(prvkeypath, pubkeypath, comment)
     elif not os.path.exists(prvkeypath):
-        keyhandling.makenewkeys(prvkeypath, pubkeypath)
+        keyhandling.makenewkeys(prvkeypath, pubkeypath, comment)
     elif not os.path.exists(pubkeypath):
-        keyhandling.makepubkey(prvkeypath, pubkeypath)
+        keyhandling.makepubkey(prvkeypath, pubkeypath, comment)
 
 # get list of computernames
 # need dialog to prompt for computers if file is not present
@@ -61,8 +64,8 @@ def write_computerlists(computerlists):
         yaml.dump(computerlists, stream)
 
 def add_public_key(username, password, computers):
-    for computer in computers:
-        print('authorise public key for ' + username + '@' + computer)
+    for computername in computers:
+        print('authorise public key for ' + username + '@' + computername)
         #keyhandling.writeauthorize(pubkeypath, computer, username, password)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
