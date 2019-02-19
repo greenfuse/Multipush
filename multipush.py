@@ -7,9 +7,10 @@ import shutil
 
 import appdirs
 import yaml
+import paramiko
 
 import keyhandling
-import paramiko
+
 
 
 homedir = os.path.expanduser("~")
@@ -64,12 +65,12 @@ def write_computerlists(computerlists):
         yaml.dump(computerlists, stream)
 
 def add_public_key(username, password, computers):
-    for computername in computers:
-        print('authorise public key for ' + username + '@' + computername)
-        #keyhandling.writeauthorize(pubkeypath, computer, username, password)
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(computername, username=username, password=password, key_filename=prvkeypath)
+    for computer in computers:
+        print('authorise public key for ' + username + '@' + computer)
+        keyhandling.writeauthorise(pubkeypath, computer, 22, username, password)
+        #ssh = paramiko.SSHClient()
+        #ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        #ssh.connect(computername, port=22, username=username, password=password, key_filename=pubkeypath)
 
 def check_computer_status(computer):
     # for connection

@@ -20,13 +20,15 @@ def makepubkey(prvkeypath, pubkeypath, comment):
     with open(pubkeypath, "w") as f:
         f.write("%s %s %s" % (pubname, pubkey, comment))
 
-def writeauthorize (key, computer, port, user, password):
+def writeauthorise (keyfile, computer, port, username, password):
     '''
     create the .ssh directory if necessary and append to or create the
     authorized_keys file with the public key
     '''
+    f = open(keyfile, "r")
+    key = f.read()
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((hostname, port))
+    sock.connect((computer, port))
     t = paramiko.Transport(sock)
     t.connect()
     t.auth_password(username, password)

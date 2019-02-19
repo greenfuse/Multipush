@@ -128,20 +128,21 @@ class Multipush(object):
         
         self.dialog_cl.hide()         
 
-
     def on_button_auth_clicked(self, widget):
         multipush.local_keys()
         listname = self.combobox.get_active_text()
         username = self.computerlists[listname]['username']
         self.headerbar_auth.set_subtitle(username)        
         response = self.dialog_auth.run()
-        self.dialog_auth.hide()
-        self.entry_auth.set_text("")
+
         if response == Gtk.ResponseType.OK:
             password = self.entry_auth.get_text()
             computers = self.get_selected_computers()
             multipush.add_public_key(username, password, computers)
-        
+            self.entry_auth.set_text("")
+
+        self.dialog_auth.hide()
+
     def on_checkbutton_all_toggled(self, widget):
         active_status = widget.get_active()
         for row in self.liststore_computers:
