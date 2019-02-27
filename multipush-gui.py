@@ -15,8 +15,13 @@ class Multipush(object):
         self.builder.connect_signals(self)
         go = self.builder.get_object
         
-        # Window widgets
+        # Main window widgets
         self.window = go("window")
+        self.radio_cmd = go("radio_cmd")
+        self.entry_cmd = go("entry_cmd")
+        self.radio_file = go("radio_file")
+        self.entry_file = go("entry_file")
+        # to do  - name the destination entry in glade.
         self.treeview = go('treeview')
         self.liststore_computers = go('liststore_computers')
         self.treeselection = self.treeview.get_selection()
@@ -154,6 +159,23 @@ class Multipush(object):
 
     def on_button_apply_clicked(self, widget):
         print("Apply")
+        # determine which radio button is active
+        if (self.radio_cmd.get_active()):
+            cmd = self.entry_cmd.get_text()
+            print("Run the command: " + cmd)
+        
+        elif (self.radio_file.get_active()):
+            copyfile = self.entry_file.get_text()
+            print("Copy the file: " + copyfile)
+        
+        else:
+            print ("Nothing to do here")
+
+        #activebutton = 
+
+        # run a command
+
+        # copy a file
         
     def on_button_stop_clicked(self, widget):
         print("Stop")
