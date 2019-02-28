@@ -21,7 +21,7 @@ class Multipush(object):
         self.entry_cmd = go("entry_cmd")
         self.radio_file = go("radio_file")
         self.entry_file = go("entry_file")
-        # to do  - name the destination entry in glade.
+        self.entry_dest = go("entry_dest")
         self.treeview = go('treeview')
         self.liststore_computers = go('liststore_computers')
         self.treeselection = self.treeview.get_selection()
@@ -66,7 +66,28 @@ class Multipush(object):
         
     def on_radio_cmd_group_changed(self, widget):
         print("selected run command")        
-        
+    
+    def on_radio_cmd_toggled(self, widget):
+        print("clear entry_file and entry_dest")
+        self.entry_file.set_text("")
+        self.entry_dest.set_text("")
+
+    def on_radio_file_toggled(self, widget):
+        print("clear entry_cmd")
+        self.entry_cmd.set_text("")
+
+    def on_entry_cmd_activate(self, widget):
+        print("set active radio_cmd")
+        self.radio_cmd.set_active()
+
+    def on_entry_file_activate(self, widget):
+        print("set active radio_file")
+        self.radio_file.set_active()
+
+    def on_entry_dest_activate(self, widget):
+        print("set active radio_file")
+        self.radio_file.set_active()
+
     # def on_checkbutton_all_toggled(self, widget):
     #    print("toggle selection to all or none")
 
