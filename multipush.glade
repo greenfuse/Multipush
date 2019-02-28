@@ -150,6 +150,7 @@
             <property name="margin_right">10</property>
             <property name="margin_top">10</property>
             <property name="margin_bottom">5</property>
+            <signal name="activate" handler="on_entry_cmd_activate" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -164,6 +165,7 @@
             <property name="margin_top">10</property>
             <property name="margin_bottom">5</property>
             <property name="hexpand">True</property>
+            <signal name="activate" handler="on_entry_file_activate" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -212,6 +214,7 @@
                 <property name="margin_bottom">5</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_radio_cmd_toggled" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -231,6 +234,7 @@
                 <property name="margin_bottom">5</property>
                 <property name="draw_indicator">True</property>
                 <property name="group">radio_cmd</property>
+                <signal name="toggled" handler="on_radio_file_toggled" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -442,11 +446,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="entry_dest">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="margin_top">5</property>
             <property name="margin_bottom">10</property>
+            <signal name="activate" handler="on_entry_dest_activate" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
