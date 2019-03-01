@@ -144,28 +144,13 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkEntry" id="entry_cmd">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="margin_right">10</property>
-            <property name="margin_top">10</property>
-            <property name="margin_bottom">5</property>
-            <signal name="focus" handler="on_entry_cmd_focus" swapped="no"/>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
-            <property name="width">4</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkEntry" id="entry_file">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="margin_top">10</property>
             <property name="margin_bottom">5</property>
             <property name="hexpand">True</property>
-            <signal name="focus" handler="on_entry_file_focus" swapped="no"/>
+            <signal name="focus-in-event" handler="on_entry_file_focus_in_event" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -451,7 +436,7 @@
             <property name="can_focus">True</property>
             <property name="margin_top">5</property>
             <property name="margin_bottom">10</property>
-            <signal name="focus" handler="on_entry_dest_focus" swapped="no"/>
+            <signal name="focus-in-event" handler="on_entry_dest_focus_in_event" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -636,6 +621,21 @@
           <packing>
             <property name="left_attach">3</property>
             <property name="top_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry_cmd">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="margin_right">10</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">5</property>
+            <signal name="focus-in-event" handler="on_entry_cmd_focus_in_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+            <property name="width">4</property>
           </packing>
         </child>
         <child>

@@ -61,32 +61,28 @@ class Multipush(object):
         #     model[path][0] = False
         return connected
     
-    def on_radio_file_group_changed(self, widget):
-        print("selected copy file")
-        
-    def on_radio_cmd_group_changed(self, widget):
-        print("selected run command")        
-    
     def on_radio_cmd_toggled(self, widget):
-        print("clear entry_file and entry_dest")
-        self.entry_file.set_text("")
-        self.entry_dest.set_text("")
+        if self.radio_cmd.get_active():
+            print("clear entry_file and entry_dest")
+            self.entry_file.set_text("")
+            self.entry_dest.set_text("")
 
     def on_radio_file_toggled(self, widget):
-        print("clear entry_cmd")
-        self.entry_cmd.set_text("")
+        if self.radio_file.get_active():
+            print("clear entry_cmd")
+            self.entry_cmd.set_text("")
 
-    def on_entry_cmd_activate(self, widget):
+    def on_entry_cmd_focus_in_event(self, widget, other):
         print("set active radio_cmd")
-        self.radio_cmd.set_active()
+        self.radio_cmd.set_active(True)
 
-    def on_entry_file_activate(self, widget):
+    def on_entry_file_focus_in_event(self, widget, other):
         print("set active radio_file")
-        self.radio_file.set_active()
+        self.radio_file.set_active(True)
 
-    def on_entry_dest_activate(self, widget):
+    def on_entry_dest_focus_in_event(self, widget, other):
         print("set active radio_file")
-        self.radio_file.set_active()
+        self.radio_file.set_active(True)
 
     # def on_checkbutton_all_toggled(self, widget):
     #    print("toggle selection to all or none")
