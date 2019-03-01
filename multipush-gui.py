@@ -180,10 +180,14 @@ class Multipush(object):
         if (self.radio_cmd.get_active()):
             cmd = self.entry_cmd.get_text()
             print("Run the command: " + cmd)
+            result = self.run_command()
+            if result:
+                print(result[1])
         
         elif (self.radio_file.get_active()):
             copyfile = self.entry_file.get_text()
             print("Copy the file: " + copyfile)
+            result = self.copy_file()
         
         else:
             print ("Nothing to do here")
@@ -353,7 +357,7 @@ class Multipush(object):
                 #selection.select_path(rownumber)
                 #selection.set_select_function(lambda )
             #rownumber += 1
-    
+
     def reset_model(self):
         for row in self.liststore_computers:
             row[1] = 0
@@ -369,6 +373,26 @@ class Multipush(object):
 
         #sftp.put("myfile","myRemoteFile",callback=printTotals)
 
+    # --- Functions to perform actions ---
+
+    def run_command(self):
+        selected_computers = self.get_selected_computers()
+        command = self.entry_cmd.get_text()
+        listname = self.combobox.get_active_text()
+        username = self.computerlists[listname]['username']
+        for computer in selected_computers:
+            result = multipush.run_command(computer, username, command)
+            return result
+
+    def copy_file(self):
+        selected_computers = self.get_selected_computers()
+        listname = self.combobox.get_active_text()
+        username = self.computerlists[listname]['username']
+        source = self.entry_file.get_text()
+        destination = self.entry_dest.get_text()
+        for computer in selected_computers:
+            result = multipush.copy_file(computer, username, source, destination)
+            return result
 
 if __name__ == "__main__":
     gui = Multipush()

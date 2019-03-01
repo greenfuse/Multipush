@@ -4,6 +4,9 @@ import os
 import getpass
 import socket
 import shutil
+import sys
+import time
+import select
 
 import appdirs
 import yaml
@@ -24,6 +27,7 @@ computerfile = os.path.join(user_app_dir, "computers.yml")
 key_dir = os.path.join(user_app_dir, "keys")
 prvkeypath = os.path.join(key_dir, "id_rsa")
 pubkeypath = os.path.join(key_dir, "id_rsa.pub")
+prvkey = paramiko.RSAKey(filename=prvkeypath)
 
 
 # check if private and public keys are present on local client
@@ -98,6 +102,57 @@ def check_computer_status(computer):
         status = 'open'
 
     return status
+
+def run_command(computer, username, command):
+    print("run " + command + "on " + computer)
+
+    i = 1
+    # Retry a few times if it fails.
+    #
+    while True:
+        print("Trying to connect to %s (%i/5)" % (computer, i))
+
+        try:
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(computer, username=username, pkey=prvkey)
+            print("Connected to %s" % computer)
+            break
+        except paramiko.AuthenticationException:
+            print( "Authentication failed when connecting to %s" % computer)
+            return
+        except:
+            print( "Could not SSH to %s, waiting for it to start" % computer)
+            i += 1
+            time.sleep(2)
+
+        # If we could not connect within time limit
+        if i == 5:
+            print("Could not connect to %s. Giving up" % computer)
+            return
+
+        # Send the command (non-blocking)
+        stdin, stdout, stderr = ssh.exec_command(command)
+        result = (stdin, stdout, stderr)
+
+        #
+        # Disconnect from the host
+        #
+        print("Command done, closing SSH connection")
+        ssh.close()
+        return result
+
+
+
+
+
+
+
+
+def copy_file(computer, source, destination):
+    print("copy file to " + computer)
+
+
 
 '''
 #example command line ref
