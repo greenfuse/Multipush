@@ -78,18 +78,18 @@ def add_public_key(username, password, computers):
 
 def check_computer_status(computer):
     # for connection
+    # error codes are in /usr/src/linux-headers-4.*/include/uapi/asm-generic/errno.h
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         result = sock.connect_ex((computer, 22))
+        sock.close()
+
     except socket.gaierror:
         # unable to resolve host name
         result = 999
 
 
     # 111 is online but ssh port (22) is not open    
-    if result == 999:
-        status = 'unresolved'
-
     if result == 111:
         status = 'closed'
 
@@ -100,6 +100,9 @@ def check_computer_status(computer):
     # 0 is avalable and ssh port (default 22) is open   
     elif result == 0:
         status = 'open'
+
+    elif result == 999:
+        status = 'unresolved' 
 
     return status
 
@@ -132,21 +135,15 @@ def run_command(computer, username, command):
             return
 
         # Send the command (non-blocking)
-        stdin, stdout, stderr = ssh.exec_command(command)
+        stdin, stdout, stderr = client.exec_command(command)
         result = (stdin, stdout, stderr)
 
         #
         # Disconnect from the host
         #
         print("Command done, closing SSH connection")
-        ssh.close()
+        client.close()
         return result
-
-
-
-
-
-
 
 
 def copy_file(computer, source, destination):
