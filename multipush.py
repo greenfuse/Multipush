@@ -104,6 +104,11 @@ def check_computer_status(computer):
     elif result == 999:
         status = 'unresolved' 
 
+    else: 
+        status = str(result)
+
+    print(status)
+
     return status
 
 def run_command(computer, username, command):
